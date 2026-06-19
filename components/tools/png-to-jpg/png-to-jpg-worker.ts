@@ -1,0 +1,131 @@
+/// <reference lib="webworker" />
+
+import { encode } from "@jsquash/jpeg";
+
+const pngToJpgAcceptedMimeTypes = ["image/png"] as const;
+const pngToJpgMaxUploadBytes = 50 * 1024 * 1024;
+const pngToJpgMaxUploadMegabytes = Math.floor(
+  pngToJpgMaxUploadBytes / (1024 * 1024),
+);
+const pngToJpgMaxInputPixels = 40_000_000;
+const pngToJpgOutputQuality = 85;
+
+function isPngToJpgMimeType(value: string) {
+  return pngToJpgAcceptedMimeTypes.includes(
+    value as (typeof pngToJpgAcceptedMimeTypes)[number],
+  );
+}
+
+function isPngFileName(value: string) {
+  return /\.png$/i.test(value);
+}
+
+function getPngToJpgDownloadName(value: string) {
+  const baseName = value.replace(/\.[^.]+$/, "").trim() || "converted-image";
+  const safeBaseName = baseName
+    .replace(/[^a-z0-9-_]+/gi, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return `${safeBaseName || "converted-image"}.jpg`;
+}
+
+/// <reference lib="webworker" />
+
+type ConvertMessage = {
+  file: File;
+  requestId: string;
+  type: "convert";
+};
+
+type SuccessMessage = {
+  buffer: ArrayBuffer;
+  requestId: string;
+  type: "success";
+};
+
+type ErrorMessage = {
+  message: string;
+  requestId: string;
+  type: "error";
+};
+
+function createRasterCanvas(width: number, height: number) {
+  return new OffscreenCanvas(width, height);
+}
+
+function drawSourceToImageData(
+  source: CanvasImageSource,
+  width: number,
+  height: number,
+) {
+  if (width <= 0 || height <= 0) {
+    throw new Error("The uploaded PNG image has invalid dimensions.");
+  }
+
+  if (width * height > pngToJpgMaxInputPixels) {
+    throw new Error(
+      "This PNG image has dimensions that are too large to convert safely right now.",
+    );
+  }
+
+  const canvas = createRasterCanvas(width, height);
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+
+  if (!context) {
+    throw new Error("Your browser could not prepare this PNG image.");
+  }
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, width, height);
+  context.drawImage(source, 0, 0, width, height);
+
+  return context.getImageData(0, 0, width, height);
+}
+
+async function fileToImageData(file: File) {
+  const bitmap = await createImageBitmap(file);
+
+  try {
+    return drawSourceToImageData(bitmap, bitmap.width, bitmap.height);
+  } finally {
+    bitmap.close();
+  }
+}
+
+self.onmessage = async (event: MessageEvent<ConvertMessage>) => {
+  if (event.data.type !== "convert") {
+    return;
+  }
+
+  const { file, requestId } = event.data;
+
+  try {
+    const imageData = await fileToImageData(file);
+    const encodedJpg = await encode(imageData, {
+      progressive: true,
+      quality: pngToJpgOutputQuality,
+    });
+    const transferableBytes = new Uint8Array(encodedJpg);
+    const message: SuccessMessage = {
+      buffer: transferableBytes.buffer,
+      requestId,
+      type: "success",
+    };
+
+    self.postMessage(message, [transferableBytes.buffer]);
+  } catch (error) {
+    const message: ErrorMessage = {
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to convert this PNG image right now.",
+      requestId,
+      type: "error",
+    };
+
+    self.postMessage(message);
+  }
+};
+
+export {};
