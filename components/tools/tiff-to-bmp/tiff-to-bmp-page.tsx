@@ -1,17 +1,13 @@
-import { SitePageShell } from "@/components/site-page-shell";
-import { ToolPageLayout } from "@/components/tool-page-layout";
 import { TiffToBmpConverter } from "@/components/tools/tiff-to-bmp/tiff-to-bmp-converter";
 import { TiffToBmpExplainer } from "@/components/tools/tiff-to-bmp/tiff-to-bmp-explainer";
 import { sniglet } from "@/lib/fonts";
 
 export function TiffToBmpPage() {
   return (
-    <SitePageShell mainClassName="flex-1">
-      <section className="border-b border-brand/20 bg-white">
-        <div className="editorial-shell py-8 sm:py-10 lg:py-12">
-          <div className="mx-auto max-w-[1720px]">
-            <ToolPageLayout>
-              <div className="space-y-4">
+    <section className="border-b border-brand/20 bg-white">
+      <div className="editorial-shell py-8 sm:py-10 lg:py-12">
+        <div className="mx-auto max-w-[1720px]">
+          <div className="space-y-4">
                 <div
                   id="tiff-to-bmp-converter"
                   className="hero-panel p-5 sm:p-6 lg:p-7"
@@ -30,11 +26,9 @@ export function TiffToBmpPage() {
 
                 <TiffToBmpConverter />
                 <TiffToBmpExplainer />
-              </div>
-            </ToolPageLayout>
           </div>
         </div>
-      </section>
-    </SitePageShell>
+      </div>
+    </section>
   );
 }

@@ -1,17 +1,13 @@
-import { SitePageShell } from "@/components/site-page-shell";
-import { ToolPageLayout } from "@/components/tool-page-layout";
 import { JpgToGifConverter } from "@/components/tools/jpg-to-gif/jpg-to-gif-converter";
 import { JpgToGifExplainer } from "@/components/tools/jpg-to-gif/jpg-to-gif-explainer";
 import { sniglet } from "@/lib/fonts";
 
 export function JpgToGifPage() {
   return (
-    <SitePageShell mainClassName="flex-1">
-      <section className="border-b border-brand/20 bg-white">
-        <div className="editorial-shell py-8 sm:py-10 lg:py-12">
-          <div className="mx-auto max-w-[1720px]">
-            <ToolPageLayout>
-              <div className="space-y-4">
+    <section className="border-b border-brand/20 bg-white">
+      <div className="editorial-shell py-8 sm:py-10 lg:py-12">
+        <div className="mx-auto max-w-[1720px]">
+          <div className="space-y-4">
                 <div
                   id="jpg-to-gif-converter"
                   className="hero-panel p-5 sm:p-6 lg:p-7"
@@ -30,11 +26,9 @@ export function JpgToGifPage() {
 
                 <JpgToGifConverter />
                 <JpgToGifExplainer />
-              </div>
-            </ToolPageLayout>
           </div>
         </div>
-      </section>
-    </SitePageShell>
+      </div>
+    </section>
   );
 }

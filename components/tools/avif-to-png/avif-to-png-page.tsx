@@ -1,17 +1,13 @@
-import { SitePageShell } from "@/components/site-page-shell";
-import { ToolPageLayout } from "@/components/tool-page-layout";
 import { AvifToPngConverter } from "@/components/tools/avif-to-png/avif-to-png-converter";
 import { AvifToPngExplainer } from "@/components/tools/avif-to-png/avif-to-png-explainer";
 import { sniglet } from "@/lib/fonts";
 
 export function AvifToPngPage() {
   return (
-    <SitePageShell mainClassName="flex-1">
-      <section className="border-b border-brand/20 bg-white">
-        <div className="editorial-shell py-8 sm:py-10 lg:py-12">
-          <div className="mx-auto max-w-[1720px]">
-            <ToolPageLayout>
-              <div className="space-y-4">
+    <section className="border-b border-brand/20 bg-white">
+      <div className="editorial-shell py-8 sm:py-10 lg:py-12">
+        <div className="mx-auto max-w-[1720px]">
+          <div className="space-y-4">
                 <div
                   id="avif-to-png-converter"
                   className="hero-panel p-5 sm:p-6 lg:p-7"
@@ -30,11 +26,9 @@ export function AvifToPngPage() {
 
                 <AvifToPngConverter />
                 <AvifToPngExplainer />
-              </div>
-            </ToolPageLayout>
           </div>
         </div>
-      </section>
-    </SitePageShell>
+      </div>
+    </section>
   );
 }
