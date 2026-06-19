@@ -1,6 +1,5 @@
 import { TiffToBmpConverter } from "@/components/tools/tiff-to-bmp/tiff-to-bmp-converter";
 import { TiffToBmpExplainer } from "@/components/tools/tiff-to-bmp/tiff-to-bmp-explainer";
-import { sniglet } from "@/lib/fonts";
 
 export function TiffToBmpPage() {
   return (
@@ -14,7 +13,7 @@ export function TiffToBmpPage() {
                 >
                   <div className="flex flex-col gap-5">
                     <div className="max-w-3xl">
-                      <h1 className={`${sniglet.className} hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]`}>
+                      <h1 className="hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]">
                         Free TIFF To BMP Converter
                       </h1>
                       <p className="mt-3 max-w-2xl font-body text-[15px] leading-[1.5] text-white sm:text-[16px]">

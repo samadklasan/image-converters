@@ -1,6 +1,5 @@
 import { BmpToPngConverter } from "@/components/tools/bmp-to-png/bmp-to-png-converter";
 import { BmpToPngExplainer } from "@/components/tools/bmp-to-png/bmp-to-png-explainer";
-import { sniglet } from "@/lib/fonts";
 
 export function BmpToPngPage() {
   return (
@@ -14,7 +13,7 @@ export function BmpToPngPage() {
                 >
                   <div className="flex flex-col gap-5">
                     <div className="max-w-3xl">
-                      <h1 className={`${sniglet.className} hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]`}>
+                      <h1 className="hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]">
                         Free BMP To PNG Converter
                       </h1>
                       <p className="mt-3 max-w-2xl font-body text-[15px] leading-[1.5] text-white sm:text-[16px]">

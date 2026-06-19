@@ -1,6 +1,5 @@
 import { PngToJpgConverter } from "@/components/tools/png-to-jpg/png-to-jpg-converter";
 import { PngToJpgExplainer } from "@/components/tools/png-to-jpg/png-to-jpg-explainer";
-import { sniglet } from "@/lib/fonts";
 
 export function PngToJpgPage() {
   return (
@@ -14,7 +13,7 @@ export function PngToJpgPage() {
                 >
                   <div className="flex flex-col gap-5">
                     <div className="max-w-3xl">
-                      <h1 className={`${sniglet.className} hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]`}>
+                      <h1 className="hero-heading text-[36px] font-[400] leading-[1] sm:text-[48px]">
                         Free PNG To JPG Converter
                       </h1>
                       <p className="mt-3 max-w-2xl font-body text-[15px] leading-[1.5] text-white sm:text-[16px]">
